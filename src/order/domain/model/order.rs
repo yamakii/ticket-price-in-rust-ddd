@@ -1,5 +1,12 @@
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Hash)]
-pub struct OrderId(i32);
+pub struct OrderId(u32);
+#[derive(Copy, Clone, Eq, PartialEq, Debug, Hash)]
+pub struct MovieId(u32);
+impl From<u32> for MovieId {
+    fn from(u: u32) -> Self {
+        Self(u)
+    }
+}
 
 #[derive(Clone, Debug)]
 pub struct Order {
@@ -7,7 +14,7 @@ pub struct Order {
 }
 
 impl Order {
-    pub(crate) fn new(id: i32) -> Order {
+    pub fn new(id: u32) -> Order {
         Order { id: OrderId(id) }
     }
 }
