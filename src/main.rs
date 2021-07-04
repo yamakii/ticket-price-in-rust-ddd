@@ -1,5 +1,8 @@
+use crate::order::registry;
+
 mod order;
 
 fn main() {
-    println!("Hello, world!");
+    let result = registry::order_registration_usecase().action();
+    println!("result {:?}", result);
 }
