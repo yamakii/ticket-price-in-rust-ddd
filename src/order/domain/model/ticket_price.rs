@@ -1,10 +1,17 @@
-use std::ops::{Mul, Sub};
+use std::ops::{Add, Mul, Sub};
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
-pub struct TicketPrice(i32);
+pub struct TicketPrice(pub i32);
 impl From<i32> for TicketPrice {
     fn from(i: i32) -> Self {
         Self(i)
+    }
+}
+impl Add<TicketPrice> for TicketPrice {
+    type Output = Self;
+
+    fn add(self, rhs: TicketPrice) -> Self::Output {
+        Self(self.0 + rhs.0)
     }
 }
 impl Sub<TicketPrice> for TicketPrice {
@@ -29,6 +36,7 @@ impl Mul<TicketCount> for TicketPrice {
     }
 }
 
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub struct TicketCount(u32);
 impl From<u32> for TicketCount {
     fn from(u: u32) -> Self {

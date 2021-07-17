@@ -1,20 +1,16 @@
-use crate::order::domain::repository::order::OrderRepository;
-use crate::order::domain::model::order::Order;
+use crate::order::domain::repository::order::HaveOrderRepository;
+use crate::order::domain::service::ticket_price::HaveTicketPriceService;
 
-#[derive(Debug)]
-pub struct OrderRegistrationUsecase<T: OrderRepository> {
-    repo: T,
+pub trait OrderRegistrationUsecase {
+    fn action(&self) -> Result<(), ()>;
 }
 
-impl<T: OrderRepository> OrderRegistrationUsecase<T> {
-    pub fn new(repo: T) -> OrderRegistrationUsecase<T> {
-        OrderRegistrationUsecase { repo }
-    }
-}
+pub trait IsOrderRegistrationUsecase: HaveOrderRepository + HaveTicketPriceService {}
 
-impl<T: OrderRepository> OrderRegistrationUsecase<T> {
-    pub fn action(&self) -> Result<(), ()> {
-        let order = Order::new(1);
-        self.repo.save(order)
+impl<O: IsOrderRegistrationUsecase> OrderRegistrationUsecase for O {
+    fn action(&self) -> Result<(), ()> {
+        // let order = Order::new(1);
+        // self.order_repository().save(order);
+        Result::Ok(())
     }
 }
