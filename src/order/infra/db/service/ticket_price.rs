@@ -13,7 +13,12 @@ impl BasicPriceService for DbBasicPriceService {
 #[derive(Debug)]
 pub struct DbCustomerTypeDiscountService {}
 impl CustomerTypeDiscountService for DbCustomerTypeDiscountService {
-    fn get(&self, _type: CustomerType) -> CustomerTypeDiscount {
-        CustomerTypeDiscount::new(CustomerType::Silver, 20)
+    fn get(&self, customer_type: CustomerType) -> CustomerTypeDiscount {
+        let discount = match customer_type {
+            CustomerType::Silver => 20,
+            CustomerType::Child => 50,
+            _ => 0,
+        };
+        CustomerTypeDiscount::new(customer_type, discount)
     }
 }

@@ -1,26 +1,28 @@
 use crate::order::domain::repository::order::HaveOrderRepository;
 use crate::order::domain::service::ticket_price::HaveTicketPriceService;
 use crate::order::infra::db::repository::order::DbOrderRepository;
+use crate::order::registry::repository::DbRepositoryRegistry;
 use crate::order::registry::service::ticket_price::HubTicketPriceService;
+use crate::order::registry::service::DomainServiceRegistry;
 use crate::order::usecase::order::IsOrderRegistrationUsecase;
 
-pub struct HubOrderRegistrationUsecase {
-    repo: DbOrderRepository,
-    service: HubTicketPriceService,
+pub struct HubOrderRegistrationUsecase<'a> {
+    repo: &'a DbOrderRepository,
+    service: &'a HubTicketPriceService<'a>,
 }
 
-impl HubOrderRegistrationUsecase {
-    pub fn new() -> Self {
+impl<'a> HubOrderRegistrationUsecase<'a> {
+    pub fn new(repository: &'a DbRepositoryRegistry, service: &'a DomainServiceRegistry) -> Self {
         HubOrderRegistrationUsecase {
-            repo: DbOrderRepository {},
-            service: HubTicketPriceService::new(),
+            repo: repository.order(),
+            service: service.ticket_price(),
         }
     }
 }
 
-impl IsOrderRegistrationUsecase for HubOrderRegistrationUsecase {}
+impl<'a> IsOrderRegistrationUsecase for HubOrderRegistrationUsecase<'a> {}
 
-impl HaveOrderRepository for HubOrderRegistrationUsecase {
+impl<'a> HaveOrderRepository for HubOrderRegistrationUsecase<'a> {
     type OrderRepository = DbOrderRepository;
 
     fn order_repository(&self) -> &Self::OrderRepository {
@@ -28,8 +30,8 @@ impl HaveOrderRepository for HubOrderRegistrationUsecase {
     }
 }
 
-impl HaveTicketPriceService for HubOrderRegistrationUsecase {
-    type TicketPriceService = HubTicketPriceService;
+impl<'a> HaveTicketPriceService for HubOrderRegistrationUsecase<'a> {
+    type TicketPriceService = HubTicketPriceService<'a>;
 
     fn ticket_price_service(&self) -> &Self::TicketPriceService {
         &self.service

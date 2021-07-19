@@ -44,7 +44,7 @@ impl From<u32> for TicketCount {
     }
 }
 
-#[derive(Copy, Clone, Eq, PartialEq, Debug)]
+#[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
 pub enum CustomerType {
     Silver,
     Adult,

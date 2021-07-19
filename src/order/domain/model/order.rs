@@ -41,13 +41,13 @@ impl Order {
         movie_id: u32,
         start_at: DateTime<Local>,
         customer_types: HashMap<CustomerType, TicketCount>,
-        service: T,
+        service: &T,
     ) -> Order {
         let details = customer_types
             .iter()
             .map(|(key, value)| OrderDetail {
-                customer_type: key.clone(),
-                count: value.clone(),
+                customer_type: *key,
+                count: *value,
                 price: service.calculate(movie_id.into(), *key, *value),
             })
             .collect();
