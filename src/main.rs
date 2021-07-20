@@ -2,7 +2,7 @@ use crate::order::domain::model::ticket_price::{CustomerType, TicketCount};
 use crate::order::registry::repository::DbRepositoryRegistry;
 use crate::order::registry::service::{DbServiceRegistry, DomainServiceRegistry};
 use crate::order::registry::usecase::UsecaseRegistry;
-use crate::order::usecase::order::OrderRegistrationUsecase;
+use crate::order::usecase::order::{OrderRegistrationUsecase, OrderShowUsecase};
 use chrono::Local;
 use std::collections::HashMap;
 
@@ -27,5 +27,9 @@ fn main() {
     let result = usecase_registry
         .order_registration()
         .action(1, 1, Local::now(), ticket_types);
+    println!("result {:?}", result);
+
+    // 映画チケット確認
+    let result = usecase_registry.order_show().action(1);
     println!("result {:?}", result);
 }

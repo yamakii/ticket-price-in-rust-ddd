@@ -20,13 +20,13 @@ pub trait IsOrderRegistrationUsecase: HaveOrderRepository + HaveTicketPriceServi
 impl<O: IsOrderRegistrationUsecase> OrderRegistrationUsecase for O {
     fn action(
         &self,
-        id: u32,
+        order_id: u32,
         movie_id: u32,
         start_at: DateTime<Local>,
         customer_types: HashMap<CustomerType, TicketCount>,
     ) -> Result<(), ()> {
         let order = Order::create(
-            id,
+            order_id,
             movie_id,
             start_at,
             customer_types,
@@ -35,5 +35,20 @@ impl<O: IsOrderRegistrationUsecase> OrderRegistrationUsecase for O {
         println!("{:?}", order);
         println!("{:?}", order.price());
         self.order_repository().save(order)
+    }
+}
+
+pub trait OrderShowUsecase {
+    fn action(
+        &self,
+        order_id: u32,
+    ) -> Result<Order, ()>;
+}
+
+pub trait IsOrderShowUsecase: HaveOrderRepository {}
+
+impl<O: IsOrderShowUsecase> OrderShowUsecase for O {
+    fn action(&self, order_id: u32) -> Result<Order, ()> {
+       self.order_repository().find(order_id.into()) 
     }
 }

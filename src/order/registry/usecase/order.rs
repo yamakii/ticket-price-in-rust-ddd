@@ -4,7 +4,7 @@ use crate::order::infra::db::repository::order::DbOrderRepository;
 use crate::order::registry::repository::DbRepositoryRegistry;
 use crate::order::registry::service::ticket_price::HubTicketPriceService;
 use crate::order::registry::service::DomainServiceRegistry;
-use crate::order::usecase::order::IsOrderRegistrationUsecase;
+use crate::order::usecase::order::{IsOrderRegistrationUsecase, IsOrderShowUsecase};
 
 pub struct HubOrderRegistrationUsecase<'a> {
     repo: &'a DbOrderRepository,
@@ -35,5 +35,27 @@ impl<'a> HaveTicketPriceService for HubOrderRegistrationUsecase<'a> {
 
     fn ticket_price_service(&self) -> &Self::TicketPriceService {
         &self.service
+    }
+}
+
+pub struct HubOrderShowUsecase<'a> {
+    repo: &'a DbOrderRepository,
+}
+
+impl<'a> HubOrderShowUsecase<'a> {
+    pub fn new(repository: &'a DbRepositoryRegistry) -> Self {
+        HubOrderShowUsecase {
+            repo: repository.order(),
+        }
+    }
+}
+
+impl<'a> IsOrderShowUsecase for HubOrderShowUsecase<'a> {}
+
+impl<'a> HaveOrderRepository for HubOrderShowUsecase<'a> {
+    type OrderRepository = DbOrderRepository;
+
+    fn order_repository(&self) -> &Self::OrderRepository {
+        &self.repo
     }
 }

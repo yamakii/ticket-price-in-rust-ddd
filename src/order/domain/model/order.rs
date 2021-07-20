@@ -8,6 +8,12 @@ use crate::order::domain::service::ticket_price::TicketPriceService;
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Hash)]
 pub struct OrderId(u32);
 
+impl From<u32> for OrderId {
+    fn from(u: u32) -> Self {
+        Self(u)
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct Order {
     id: OrderId,
@@ -30,7 +36,7 @@ impl Order {
         details: Vec<OrderDetail>,
     ) -> Order {
         Order {
-            id: OrderId(id),
+            id: id.into(),
             movie_id: movie_id.into(),
             start_at,
             details,
