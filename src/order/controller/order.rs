@@ -1,6 +1,9 @@
 use crate::order::controller::order::movie_ticket::movie_ticket_api_server::MovieTicketApi;
-use crate::order::registry::usecase::order::HubOrderShowUsecase;
-use crate::order::usecase::order::OrderShowUsecase;
+use crate::order::domain::model::ticket_price::{CustomerType, TicketCount};
+use crate::order::registry::usecase::order::{HubOrderRegistrationUsecase, HubOrderShowUsecase};
+use crate::order::usecase::order::{OrderRegistrationUsecase, OrderShowUsecase};
+use chrono::Local;
+use std::collections::HashMap;
 use tonic::Response;
 
 pub mod movie_ticket {
@@ -9,17 +12,52 @@ pub mod movie_ticket {
 
 #[derive(Debug)]
 pub struct MyMovieTicketApi {
+    order_registration_usecase: &'static HubOrderRegistrationUsecase<'static>,
     order_show_usecase: &'static HubOrderShowUsecase<'static>,
 }
 
 impl MyMovieTicketApi {
-    pub fn new(order_show_usecase: &'static HubOrderShowUsecase<'static>) -> Self {
-        MyMovieTicketApi { order_show_usecase }
+    pub fn new(
+        order_registration_usecase: &'static HubOrderRegistrationUsecase<'static>,
+        order_show_usecase: &'static HubOrderShowUsecase<'static>,
+    ) -> Self {
+        MyMovieTicketApi {
+            order_registration_usecase,
+            order_show_usecase,
+        }
     }
 }
 
 #[tonic::async_trait]
 impl MovieTicketApi for MyMovieTicketApi {
+    async fn order(
+        &self,
+        request: tonic::Request<movie_ticket::OrderRequest>,
+    ) -> Result<tonic::Response<movie_ticket::OrderResponse>, tonic::Status> {
+        let request = request.into_inner();
+
+        let ticket_types: HashMap<_, _> = vec![
+            (CustomerType::Adult, TicketCount::from(request.count_adult)),
+            (CustomerType::Child, TicketCount::from(request.count_child)),
+            (
+                CustomerType::Silver,
+                TicketCount::from(request.count_silver),
+            ),
+        ]
+        .into_iter()
+        .collect();
+        let result = self.order_registration_usecase.action(
+            request.order_id,
+            request.movie_id,
+            Local::now(),
+            ticket_types,
+        );
+
+        let response = movie_ticket::OrderResponse {
+            message: format!("result {:?}", result).into(),
+        };
+        Ok(Response::new(response))
+    }
     async fn show(
         &self,
         request: tonic::Request<movie_ticket::ShowRequest>,
@@ -29,10 +67,10 @@ impl MovieTicketApi for MyMovieTicketApi {
         let result = self
             .order_show_usecase
             .action(request.into_inner().order_id);
+
         let response = movie_ticket::ShowResponse {
             message: format!("result {:?}", result).into(),
         };
-
         Ok(Response::new(response))
     }
 }

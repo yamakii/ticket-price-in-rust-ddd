@@ -1,8 +1,23 @@
 syntax = "proto3";
+
 package movie_ticket;
 
 service MovieTicketApi {
-    rpc Show (ShowRequest) returns (ShowResponse);
+    rpc Order(OrderRequest) returns (OrderResponse);
+    rpc Show(ShowRequest) returns (ShowResponse);
+}
+
+message OrderRequest {
+    uint32 order_id = 1;
+    uint32 movie_id = 2;
+    Date start_at = 3;
+    uint32 count_adult = 4;
+    uint32 count_child = 5;
+    uint32 count_silver = 6;
+}
+
+message OrderResponse {
+    string message = 1;
 }
 
 message ShowRequest {
@@ -11,4 +26,10 @@ message ShowRequest {
 
 message ShowResponse {
     string message = 1;
+}
+
+message Date {
+    uint32 year = 1;
+    uint32 month = 2;
+    uint32 day = 3;
 }
