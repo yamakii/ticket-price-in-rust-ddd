@@ -1,19 +1,38 @@
+use crate::order::controller::order::movie_ticket::movie_ticket_api_server::MovieTicketApiServer;
+use crate::order::controller::order::MyMovieTicketApi;
 use crate::order::domain::model::ticket_price::{CustomerType, TicketCount};
 use crate::order::registry::repository::DbRepositoryRegistry;
 use crate::order::registry::service::{DbServiceRegistry, DomainServiceRegistry};
 use crate::order::registry::usecase::UsecaseRegistry;
-use crate::order::usecase::order::{OrderRegistrationUsecase, OrderShowUsecase};
+use crate::order::usecase::order::OrderRegistrationUsecase;
 use chrono::Local;
 use std::collections::HashMap;
+use tonic::transport::Server;
 
 mod order;
 
-fn main() {
-    // registryの初期化
-    let db_service_registry = DbServiceRegistry::new();
-    let db_repository_registry = DbRepositoryRegistry::new();
-    let domain_service_registry = DomainServiceRegistry::new(&db_service_registry);
-    let usecase_registry = UsecaseRegistry::new(&db_repository_registry, &domain_service_registry);
+#[macro_use]
+extern crate lazy_static;
+
+lazy_static! {
+// registryの初期化
+static ref DB_SERVICE_REGISTRY: DbServiceRegistry = DbServiceRegistry::new();
+static ref DB_REPOSITORY_REGISTRY: DbRepositoryRegistry = DbRepositoryRegistry::new();
+static ref DOMAIN_SERVICE_REGISTRY: DomainServiceRegistry<'static> =
+    DomainServiceRegistry::new(&DB_SERVICE_REGISTRY);
+static ref USECASE_REGISTRY: UsecaseRegistry<'static> =
+    UsecaseRegistry::new(&DB_REPOSITORY_REGISTRY, &DOMAIN_SERVICE_REGISTRY);
+}
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let addr = "[::1]:50051".parse()?;
+    let movie_ticket = MyMovieTicketApi::new(USECASE_REGISTRY.order_show());
+
+    Server::builder()
+        .add_service(MovieTicketApiServer::new(movie_ticket))
+        .serve(addr)
+        .await?;
 
     // ユースケース
     // 映画チケット購入
@@ -24,12 +43,10 @@ fn main() {
     ]
     .into_iter()
     .collect();
-    let result = usecase_registry
+    let result = USECASE_REGISTRY
         .order_registration()
         .action(1, 1, Local::now(), ticket_types);
     println!("result {:?}", result);
 
-    // 映画チケット確認
-    let result = usecase_registry.order_show().action(1);
-    println!("result {:?}", result);
+    Ok(())
 }

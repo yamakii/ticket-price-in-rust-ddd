@@ -1,0 +1,14 @@
+syntax = "proto3";
+package movie_ticket;
+
+service MovieTicketApi {
+    rpc Show (ShowRequest) returns (ShowResponse);
+}
+
+message ShowRequest {
+    uint32 order_id = 1;
+}
+
+message ShowResponse {
+    string message = 1;
+}

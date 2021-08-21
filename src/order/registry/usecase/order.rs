@@ -38,6 +38,7 @@ impl<'a> HaveTicketPriceService for HubOrderRegistrationUsecase<'a> {
     }
 }
 
+#[derive(Debug)]
 pub struct HubOrderShowUsecase<'a> {
     repo: &'a DbOrderRepository,
 }
