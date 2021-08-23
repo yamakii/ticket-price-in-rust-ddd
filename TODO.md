@@ -5,8 +5,8 @@
 - [x] 注文エンティティの実装
 - [x] 映画チケット購入のユースケース実装
 - [x] 映画チケット確認のユースケース実装
-- [ ] web api orderの実装
-- [ ] web api showの実装
+- [x] web api orderの実装
+- [x] web api showの実装
 - [ ] order repositoryの仮実装をちゃんとした実装に
 - [ ] basic priceの仮実装をちゃんとした実装に
 - [ ] customer type discountの仮実装をちゃんとした実装に
