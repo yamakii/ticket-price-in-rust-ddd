@@ -1,11 +1,26 @@
 use crate::order::controller::order::movie_ticket::movie_ticket_api_server::MovieTicketApiServer;
-use crate::order::controller::order::MyMovieTicketApi;
+use crate::order::controller::order::MovieTicketApiController;
 use crate::order::registry::repository::DbRepositoryRegistry;
 use crate::order::registry::service::{DbServiceRegistry, DomainServiceRegistry};
 use crate::order::registry::usecase::UsecaseRegistry;
 use tonic::transport::Server;
 
-mod order;
+// DB接続
+#[macro_use]
+extern crate diesel;
+extern crate dotenv;
+
+use diesel::pg::PgConnection;
+use diesel::prelude::*;
+use dotenv::dotenv;
+use std::env;
+
+pub fn establish_connection() -> PgConnection {
+    dotenv().ok();
+
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    PgConnection::establish(&database_url).expect(&format!("Error connecting to {}", database_url))
+}
 
 #[macro_use]
 extern crate lazy_static;
@@ -23,7 +38,7 @@ static ref USECASE_REGISTRY: UsecaseRegistry<'static> =
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "[::1]:50051".parse()?;
-    let movie_ticket = MyMovieTicketApi::new(
+    let movie_ticket = MovieTicketApiController::new(
         USECASE_REGISTRY.order_registration(),
         USECASE_REGISTRY.order_show(),
     );
@@ -35,3 +50,5 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+mod order;

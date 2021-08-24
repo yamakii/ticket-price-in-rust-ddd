@@ -11,17 +11,17 @@ pub mod movie_ticket {
 }
 
 #[derive(Debug)]
-pub struct MyMovieTicketApi {
+pub struct MovieTicketApiController {
     order_registration_usecase: &'static HubOrderRegistrationUsecase<'static>,
     order_show_usecase: &'static HubOrderShowUsecase<'static>,
 }
 
-impl MyMovieTicketApi {
+impl MovieTicketApiController {
     pub fn new(
         order_registration_usecase: &'static HubOrderRegistrationUsecase<'static>,
         order_show_usecase: &'static HubOrderShowUsecase<'static>,
     ) -> Self {
-        MyMovieTicketApi {
+        MovieTicketApiController {
             order_registration_usecase,
             order_show_usecase,
         }
@@ -29,7 +29,7 @@ impl MyMovieTicketApi {
 }
 
 #[tonic::async_trait]
-impl MovieTicketApi for MyMovieTicketApi {
+impl MovieTicketApi for MovieTicketApiController {
     async fn order(
         &self,
         request: tonic::Request<movie_ticket::OrderRequest>,
