@@ -2,6 +2,9 @@ use crate::order::infra::db::service::ticket_price::{
     DbBasicPriceService, DbCustomerTypeDiscountService,
 };
 use crate::order::registry::service::ticket_price::HubTicketPriceService;
+use diesel::r2d2::{ConnectionManager, Pool};
+use diesel::PgConnection;
+use std::sync::Arc;
 
 pub mod ticket_price;
 
@@ -26,10 +29,10 @@ pub struct DbServiceRegistry {
 }
 
 impl DbServiceRegistry {
-    pub fn new() -> Self {
+    pub fn new(pool: Arc<Pool<ConnectionManager<PgConnection>>>) -> Self {
         DbServiceRegistry {
-            basic_price: DbBasicPriceService {},
-            customer_type_discount: DbCustomerTypeDiscountService {},
+            basic_price: DbBasicPriceService::new(pool.clone()),
+            customer_type_discount: DbCustomerTypeDiscountService::new(pool.clone()),
         }
     }
     pub fn basic_price(&self) -> &DbBasicPriceService {

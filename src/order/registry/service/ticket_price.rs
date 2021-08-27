@@ -7,7 +7,6 @@ use crate::order::infra::db::service::ticket_price::{
 };
 use crate::order::registry::service::DbServiceRegistry;
 
-#[derive(Debug)]
 pub struct HubTicketPriceService<'a> {
     basic: &'a DbBasicPriceService,
     customer_type_discount: &'a DbCustomerTypeDiscountService,

@@ -19,7 +19,7 @@ extern crate lazy_static;
 lazy_static! {
 // registryの初期化
 static ref POOL: Arc<Pool<ConnectionManager<PgConnection>>> = make_connection_pool();
-static ref DB_SERVICE_REGISTRY: DbServiceRegistry = DbServiceRegistry::new();
+static ref DB_SERVICE_REGISTRY: DbServiceRegistry = DbServiceRegistry::new(POOL.clone());
 static ref DB_REPOSITORY_REGISTRY: DbRepositoryRegistry = DbRepositoryRegistry::new(POOL.clone());
 static ref DOMAIN_SERVICE_REGISTRY: DomainServiceRegistry<'static> =
     DomainServiceRegistry::new(&DB_SERVICE_REGISTRY);
