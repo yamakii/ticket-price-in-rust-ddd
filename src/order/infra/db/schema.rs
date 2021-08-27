@@ -1,7 +1,7 @@
 table! {
     customer_type_discounts (customer_type) {
         customer_type -> Int4,
-        disconnect -> Int4,
+        discount -> Int4,
     }
 }
 

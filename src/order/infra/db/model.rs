@@ -10,7 +10,7 @@ pub struct MovieDTO {
 #[derive(Queryable)]
 pub struct CustomerTypeDiscountDTO {
     pub customer_type: i32,
-    pub disconnect: i32,
+    pub discount: i32,
 }
 
 #[derive(Queryable)]
