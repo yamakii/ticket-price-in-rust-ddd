@@ -8,6 +8,11 @@ impl From<i32> for TicketPrice {
         Self(i)
     }
 }
+impl Into<i32> for TicketPrice {
+    fn into(self) -> i32 {
+        self.0 as i32
+    }
+}
 impl Add<TicketPrice> for TicketPrice {
     type Output = Self;
 
@@ -51,11 +56,17 @@ impl From<i32> for TicketCount {
     }
 }
 
+impl Into<i32> for TicketCount {
+    fn into(self) -> i32 {
+        self.0 as i32
+    }
+}
+
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
 pub enum CustomerType {
-    Silver,
-    Adult,
+    Adult = 1,
     Child,
+    Silver,
 }
 
 impl CustomerType {

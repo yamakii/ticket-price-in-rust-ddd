@@ -34,6 +34,21 @@ impl PartialEq for Order {
 }
 
 impl Order {
+    pub fn id(&self) -> OrderId {
+        self.id
+    }
+    pub fn movie_id(&self) -> MovieId {
+        self.movie_id
+    }
+    pub fn start_at(&self) -> DateTime<Local> {
+        self.start_at
+    }
+    pub fn details(&self) -> &Vec<OrderDetail> {
+        &self.details
+    }
+}
+
+impl Order {
     pub fn new(
         id: u32,
         movie_id: u32,
@@ -82,12 +97,21 @@ pub struct OrderDetail {
 }
 
 impl OrderDetail {
-    pub(crate) fn new(customer_type: CustomerType, count: TicketCount, price: TicketPrice) -> Self {
+    pub fn new(customer_type: CustomerType, count: TicketCount, price: TicketPrice) -> Self {
         Self {
             customer_type,
             count,
             price,
         }
+    }
+    pub fn customer_type(&self) -> CustomerType {
+        self.customer_type
+    }
+    pub fn count(&self) -> TicketCount {
+        self.count
+    }
+    pub fn price(&self) -> TicketPrice {
+        self.price
     }
 }
 
@@ -97,5 +121,11 @@ pub struct MovieId(u32);
 impl From<u32> for MovieId {
     fn from(u: u32) -> Self {
         Self(u)
+    }
+}
+
+impl Into<u32> for MovieId {
+    fn into(self) -> u32 {
+        self.0
     }
 }

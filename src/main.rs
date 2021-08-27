@@ -8,6 +8,8 @@ use tonic::transport::Server;
 #[macro_use]
 extern crate diesel;
 extern crate dotenv;
+extern crate serde_derive;
+extern crate serde_json;
 
 #[macro_use]
 extern crate lazy_static;
