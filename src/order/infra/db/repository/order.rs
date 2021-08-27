@@ -1,7 +1,6 @@
 use crate::order::domain::model::order::{Order, OrderDetail, OrderId};
 use crate::order::domain::model::ticket_price::CustomerType;
 use crate::order::domain::repository::order::OrderRepository;
-use crate::order::infra::db::establish_connection;
 use crate::order::infra::db::model::{OrderDTO, OrderDetailDTO};
 use crate::order::infra::db::repository::order::dto::{NewOrder, NewOrderDetail};
 use crate::order::infra::db::schema::order_details::dsl::{order_details, order_id};
@@ -57,7 +56,7 @@ impl OrderRepository for DbOrderRepository {
     }
 
     fn save(&self, order: Order) -> Result<(), ()> {
-        let conn = establish_connection();
+        let conn = self.pool.get().unwrap();
         let new_order = NewOrder {
             id: Into::<u32>::into(order.id()) as i32,
             movie_id: Into::<u32>::into(order.movie_id()) as i32,
