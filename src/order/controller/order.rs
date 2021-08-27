@@ -10,7 +10,6 @@ pub mod movie_ticket {
     tonic::include_proto!("movie_ticket");
 }
 
-#[derive(Debug)]
 pub struct MovieTicketApiController {
     order_registration_usecase: &'static HubOrderRegistrationUsecase<'static>,
     order_show_usecase: &'static HubOrderShowUsecase<'static>,

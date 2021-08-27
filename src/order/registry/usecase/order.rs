@@ -6,7 +6,6 @@ use crate::order::registry::service::ticket_price::HubTicketPriceService;
 use crate::order::registry::service::DomainServiceRegistry;
 use crate::order::usecase::order::{IsOrderRegistrationUsecase, IsOrderShowUsecase};
 
-#[derive(Debug)]
 pub struct HubOrderRegistrationUsecase<'a> {
     repo: &'a DbOrderRepository,
     service: &'a HubTicketPriceService<'a>,
@@ -39,7 +38,6 @@ impl<'a> HaveTicketPriceService for HubOrderRegistrationUsecase<'a> {
     }
 }
 
-#[derive(Debug)]
 pub struct HubOrderShowUsecase<'a> {
     repo: &'a DbOrderRepository,
 }

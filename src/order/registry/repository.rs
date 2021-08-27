@@ -1,13 +1,16 @@
 use crate::order::infra::db::repository::order::DbOrderRepository;
+use diesel::r2d2::{ConnectionManager, Pool};
+use diesel::PgConnection;
+use std::sync::Arc;
 
 pub struct DbRepositoryRegistry {
     order: DbOrderRepository,
 }
 
 impl DbRepositoryRegistry {
-    pub fn new() -> Self {
+    pub fn new(pool: Arc<Pool<ConnectionManager<PgConnection>>>) -> Self {
         DbRepositoryRegistry {
-            order: DbOrderRepository {},
+            order: DbOrderRepository::new(pool.clone()),
         }
     }
     pub fn order(&self) -> &DbOrderRepository {

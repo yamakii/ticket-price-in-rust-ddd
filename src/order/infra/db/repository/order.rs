@@ -8,14 +8,23 @@ use crate::order::infra::db::schema::order_details::dsl::{order_details, order_i
 use crate::order::infra::db::schema::orders::dsl::orders;
 use chrono::{Local, TimeZone};
 use diesel::prelude::*;
+use diesel::r2d2::{ConnectionManager, Pool};
+use std::sync::Arc;
 
-#[derive(Debug)]
-pub struct DbOrderRepository {}
+pub struct DbOrderRepository {
+    pool: Arc<Pool<ConnectionManager<PgConnection>>>,
+}
+
+impl DbOrderRepository {
+    pub fn new(pool: Arc<Pool<ConnectionManager<PgConnection>>>) -> Self {
+        DbOrderRepository { pool }
+    }
+}
 
 impl OrderRepository for DbOrderRepository {
     fn find(&self, key: OrderId) -> Result<Order, ()> {
         let key: u32 = key.into();
-        let conn = establish_connection();
+        let conn = self.pool.get().unwrap();
 
         let details_dto = order_details
             .filter(order_id.eq(key as i32))

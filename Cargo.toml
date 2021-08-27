@@ -11,11 +11,9 @@ chrono = "0.4"
 tonic = "0.4"
 prost = "0.7"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
-diesel = { version = "1.4.4", features = ["postgres", "chrono"] }
+diesel = { version = "1.4.4", features = ["postgres", "chrono", "r2d2"] }
 dotenv = "0.15.0"
-serde = "1.0"
-serde_derive = "1.0"
-serde_json = "1.0"
+r2d2 = "0.8.9"
 
 [build-dependencies]
 tonic-build = "0.4"
