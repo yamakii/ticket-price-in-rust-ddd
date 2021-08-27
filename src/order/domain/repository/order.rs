@@ -1,4 +1,4 @@
-use crate::order::domain::model::order::{OrderId, Order};
+use crate::order::domain::model::order::{Order, OrderId};
 
 pub trait OrderRepository {
     fn find(&self, id: OrderId) -> Result<Order, ()>;

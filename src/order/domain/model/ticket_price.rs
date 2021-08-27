@@ -1,3 +1,4 @@
+use crate::order::domain::model::ticket_price::CustomerType::{Adult, Child, Silver};
 use std::ops::{Add, Mul, Sub};
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
@@ -44,11 +45,27 @@ impl From<u32> for TicketCount {
     }
 }
 
+impl From<i32> for TicketCount {
+    fn from(i: i32) -> Self {
+        Self(i as u32)
+    }
+}
+
 #[derive(Copy, Clone, Eq, PartialEq, Hash, Debug)]
 pub enum CustomerType {
     Silver,
     Adult,
     Child,
+}
+
+impl CustomerType {
+    pub fn new(key: i32) -> Self {
+        match key {
+            2 => Child,
+            3 => Silver,
+            _ => Adult,
+        }
+    }
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]

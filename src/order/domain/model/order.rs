@@ -13,6 +13,11 @@ impl From<u32> for OrderId {
         Self(u)
     }
 }
+impl Into<u32> for OrderId {
+    fn into(self) -> u32 {
+        self.0
+    }
+}
 
 #[derive(Clone, Debug)]
 pub struct Order {
@@ -74,6 +79,16 @@ pub struct OrderDetail {
     customer_type: CustomerType,
     count: TicketCount,
     price: TicketPrice,
+}
+
+impl OrderDetail {
+    pub(crate) fn new(customer_type: CustomerType, count: TicketCount, price: TicketPrice) -> Self {
+        Self {
+            customer_type,
+            count,
+            price,
+        }
+    }
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Hash)]
