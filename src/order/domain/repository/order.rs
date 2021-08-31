@@ -1,8 +1,9 @@
 use crate::order::domain::model::order::{Order, OrderId};
+use anyhow::Result;
 
 pub trait OrderRepository {
-    fn find(&self, id: OrderId) -> Result<Order, ()>;
-    fn save(&self, order: Order) -> Result<(), ()>;
+    fn find(&self, id: OrderId) -> Result<Order>;
+    fn save(&self, order: Order) -> Result<()>;
 }
 
 pub trait HaveOrderRepository {

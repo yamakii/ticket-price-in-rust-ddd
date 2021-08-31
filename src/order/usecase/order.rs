@@ -4,6 +4,7 @@ use crate::order::domain::repository::order::{HaveOrderRepository, OrderReposito
 use crate::order::domain::service::ticket_price::HaveTicketPriceService;
 use chrono::{DateTime, Local};
 use std::collections::HashMap;
+use anyhow::Result;
 
 pub trait OrderRegistrationUsecase {
     fn action(
@@ -12,7 +13,7 @@ pub trait OrderRegistrationUsecase {
         movie_id: u32,
         start_at: DateTime<Local>,
         customer_types: HashMap<CustomerType, TicketCount>,
-    ) -> Result<(), ()>;
+    ) -> Result<()>;
 }
 
 pub trait IsOrderRegistrationUsecase: HaveOrderRepository + HaveTicketPriceService {}
@@ -24,7 +25,7 @@ impl<O: IsOrderRegistrationUsecase> OrderRegistrationUsecase for O {
         movie_id: u32,
         start_at: DateTime<Local>,
         customer_types: HashMap<CustomerType, TicketCount>,
-    ) -> Result<(), ()> {
+    ) -> Result<()> {
         let order = Order::create(
             order_id,
             movie_id,
@@ -42,13 +43,13 @@ pub trait OrderShowUsecase {
     fn action(
         &self,
         order_id: u32,
-    ) -> Result<Order, ()>;
+    ) -> Result<Order>;
 }
 
 pub trait IsOrderShowUsecase: HaveOrderRepository {}
 
 impl<O: IsOrderShowUsecase> OrderShowUsecase for O {
-    fn action(&self, order_id: u32) -> Result<Order, ()> {
-       self.order_repository().find(order_id.into()) 
+    fn action(&self, order_id: u32) -> Result<Order> {
+        self.order_repository().find(order_id.into())
     }
 }

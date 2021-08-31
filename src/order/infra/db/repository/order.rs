@@ -9,6 +9,7 @@ use chrono::{Local, TimeZone};
 use diesel::prelude::*;
 use diesel::r2d2::{ConnectionManager, Pool};
 use std::sync::Arc;
+use anyhow::{Result, Context};
 
 pub struct DbOrderRepository {
     pool: Arc<Pool<ConnectionManager<PgConnection>>>,
@@ -21,18 +22,16 @@ impl DbOrderRepository {
 }
 
 impl OrderRepository for DbOrderRepository {
-    fn find(&self, key: OrderId) -> Result<Order, ()> {
+    fn find(&self, key: OrderId) -> Result<Order> {
         let key: u32 = key.into();
-        let conn = self.pool.get().unwrap();
+        let conn = self.pool.get()?;
 
         let details_dto = order_details
             .filter(order_id.eq(key as i32))
-            .load::<OrderDetailDTO>(&conn)
-            .expect("Error loading order_details");
+            .load::<OrderDetailDTO>(&conn)?;
         let order_dto: OrderDTO = orders
             .find(key as i32)
-            .first(&conn)
-            .expect("Error loading order_details");
+            .first(&conn)?;
 
         let details: Vec<_> = details_dto
             .iter()
@@ -50,13 +49,14 @@ impl OrderRepository for DbOrderRepository {
             order_dto.movie_id as u32,
             Local
                 .from_local_datetime(&order_dto.start_at.and_hms(0, 0, 0))
-                .unwrap(),
+                .single()
+                .context("parse error")?,
             details,
         ))
     }
 
-    fn save(&self, order: Order) -> Result<(), ()> {
-        let conn = self.pool.get().unwrap();
+    fn save(&self, order: Order) -> Result<()> {
+        let conn = self.pool.get()?;
         let new_order = NewOrder {
             id: Into::<u32>::into(order.id()) as i32,
             movie_id: Into::<u32>::into(order.movie_id()) as i32,
@@ -77,12 +77,10 @@ impl OrderRepository for DbOrderRepository {
 
         diesel::insert_into(orders)
             .values(&new_order)
-            .execute(&conn)
-            .expect("error");
+            .execute(&conn)?;
         diesel::insert_into(order_details)
             .values(&new_order_details)
-            .execute(&conn)
-            .expect("error");
+            .execute(&conn)?;
 
         Result::Ok(())
     }
