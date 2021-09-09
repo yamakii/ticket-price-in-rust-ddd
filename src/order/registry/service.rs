@@ -32,7 +32,7 @@ impl DbServiceRegistry {
     pub fn new(pool: Arc<Pool<ConnectionManager<PgConnection>>>) -> Self {
         DbServiceRegistry {
             basic_price: DbBasicPriceService::new(pool.clone()),
-            customer_type_discount: DbCustomerTypeDiscountService::new(pool.clone()),
+            customer_type_discount: DbCustomerTypeDiscountService::new(pool),
         }
     }
     pub fn basic_price(&self) -> &DbBasicPriceService {

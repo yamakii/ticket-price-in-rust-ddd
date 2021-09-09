@@ -8,6 +8,7 @@ use diesel::r2d2::{ConnectionManager, Pool};
 use diesel::PgConnection;
 use std::sync::Arc;
 use tonic::transport::Server;
+use anyhow::{Result};
 
 #[macro_use]
 extern crate diesel;
@@ -28,7 +29,7 @@ static ref USECASE_REGISTRY: UsecaseRegistry<'static> =
 }
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<()> {
     let addr = "[::1]:50051".parse()?;
     let movie_ticket = MovieTicketApiController::new(
         USECASE_REGISTRY.order_registration(),

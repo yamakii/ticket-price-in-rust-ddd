@@ -13,9 +13,10 @@ impl From<u32> for OrderId {
         Self(u)
     }
 }
-impl Into<u32> for OrderId {
-    fn into(self) -> u32 {
-        self.0
+
+impl From<OrderId> for u32 {
+    fn from(order_id: OrderId) -> Self {
+        order_id.0
     }
 }
 
@@ -124,8 +125,8 @@ impl From<u32> for MovieId {
     }
 }
 
-impl Into<u32> for MovieId {
-    fn into(self) -> u32 {
-        self.0
+impl From<MovieId> for u32 {
+    fn from(movie_id: MovieId) -> Self {
+        movie_id.0
     }
 }

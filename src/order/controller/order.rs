@@ -53,7 +53,7 @@ impl MovieTicketApi for MovieTicketApiController {
         );
 
         let response = movie_ticket::OrderResponse {
-            message: format!("result {:?}", result).into(),
+            message: format!("result {:?}", result),
         };
         Ok(Response::new(response))
     }
@@ -68,7 +68,7 @@ impl MovieTicketApi for MovieTicketApiController {
             .action(request.into_inner().order_id);
 
         let response = movie_ticket::ShowResponse {
-            message: format!("result {:?}", result).into(),
+            message: format!("result {:?}", result),
         };
         Ok(Response::new(response))
     }

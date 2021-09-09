@@ -10,7 +10,7 @@ pub struct DbRepositoryRegistry {
 impl DbRepositoryRegistry {
     pub fn new(pool: Arc<Pool<ConnectionManager<PgConnection>>>) -> Self {
         DbRepositoryRegistry {
-            order: DbOrderRepository::new(pool.clone()),
+            order: DbOrderRepository::new(pool),
         }
     }
     pub fn order(&self) -> &DbOrderRepository {

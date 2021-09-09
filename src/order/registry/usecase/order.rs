@@ -26,7 +26,7 @@ impl<'a> HaveOrderRepository for HubOrderRegistrationUsecase<'a> {
     type OrderRepository = DbOrderRepository;
 
     fn order_repository(&self) -> &Self::OrderRepository {
-        &self.repo
+        self.repo
     }
 }
 
@@ -34,7 +34,7 @@ impl<'a> HaveTicketPriceService for HubOrderRegistrationUsecase<'a> {
     type TicketPriceService = HubTicketPriceService<'a>;
 
     fn ticket_price_service(&self) -> &Self::TicketPriceService {
-        &self.service
+        self.service
     }
 }
 
@@ -56,6 +56,6 @@ impl<'a> HaveOrderRepository for HubOrderShowUsecase<'a> {
     type OrderRepository = DbOrderRepository;
 
     fn order_repository(&self) -> &Self::OrderRepository {
-        &self.repo
+        self.repo
     }
 }

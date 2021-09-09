@@ -8,9 +8,9 @@ impl From<i32> for TicketPrice {
         Self(i)
     }
 }
-impl Into<i32> for TicketPrice {
-    fn into(self) -> i32 {
-        self.0 as i32
+impl From<TicketPrice> for i32 {
+    fn from(ticket_price: TicketPrice) -> Self {
+        ticket_price.0
     }
 }
 impl Add<TicketPrice> for TicketPrice {
@@ -56,9 +56,9 @@ impl From<i32> for TicketCount {
     }
 }
 
-impl Into<i32> for TicketCount {
-    fn into(self) -> i32 {
-        self.0 as i32
+impl From<TicketCount> for i32 {
+    fn from(ticket_count: TicketCount) -> Self {
+        ticket_count.0 as i32
     }
 }
 

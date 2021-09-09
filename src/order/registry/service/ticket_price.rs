@@ -27,7 +27,7 @@ impl<'a> HaveBasicPriceService for HubTicketPriceService<'a> {
     type BasicPriceService = DbBasicPriceService;
 
     fn basic_price_service(&self) -> &Self::BasicPriceService {
-        &self.basic
+        self.basic
     }
 }
 
@@ -35,7 +35,7 @@ impl<'a> HaveCustomerTypeDiscountService for HubTicketPriceService<'a> {
     type CustomerTypeDiscountService = DbCustomerTypeDiscountService;
 
     fn customer_type_discount_service(&self) -> &Self::CustomerTypeDiscountService {
-        &self.customer_type_discount
+        self.customer_type_discount
     }
 }
 
@@ -43,6 +43,6 @@ impl<'a> HaveTicketPriceService for HubTicketPriceService<'a> {
     type TicketPriceService = Self;
 
     fn ticket_price_service(&self) -> &Self::TicketPriceService {
-        &self
+        self
     }
 }
