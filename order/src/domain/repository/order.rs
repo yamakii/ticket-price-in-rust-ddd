@@ -1,4 +1,4 @@
-use crate::order::domain::model::order::{Order, OrderId};
+use crate::domain::model::order::{Order, OrderId};
 use anyhow::Result;
 
 pub trait OrderRepository {

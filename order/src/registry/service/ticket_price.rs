@@ -1,11 +1,9 @@
-use crate::order::domain::service::ticket_price::{
+use crate::domain::service::ticket_price::{
     HaveBasicPriceService, HaveCustomerTypeDiscountService, HaveTicketPriceService,
     IsTicketPriceService,
 };
-use crate::order::infra::db::service::ticket_price::{
-    DbBasicPriceService, DbCustomerTypeDiscountService,
-};
-use crate::order::registry::service::DbServiceRegistry;
+use crate::infra::db::service::ticket_price::{DbBasicPriceService, DbCustomerTypeDiscountService};
+use crate::registry::service::DbServiceRegistry;
 
 pub struct HubTicketPriceService<'a> {
     basic: &'a DbBasicPriceService,

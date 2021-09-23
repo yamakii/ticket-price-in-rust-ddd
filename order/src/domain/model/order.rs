@@ -1,9 +1,7 @@
-use std::collections::HashMap;
-
+use crate::domain::model::ticket_price::{CustomerType, TicketCount, TicketPrice};
+use crate::domain::service::ticket_price::TicketPriceService;
 use chrono::{DateTime, Local};
-
-use crate::order::domain::model::ticket_price::{CustomerType, TicketCount, TicketPrice};
-use crate::order::domain::service::ticket_price::TicketPriceService;
+use std::collections::HashMap;
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Hash)]
 pub struct OrderId(u32);

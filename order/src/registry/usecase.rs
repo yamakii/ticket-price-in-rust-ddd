@@ -1,6 +1,6 @@
-use crate::order::registry::repository::DbRepositoryRegistry;
-use crate::order::registry::service::DomainServiceRegistry;
-use crate::order::registry::usecase::order::{HubOrderRegistrationUsecase, HubOrderShowUsecase};
+use crate::registry::repository::DbRepositoryRegistry;
+use crate::registry::service::DomainServiceRegistry;
+use crate::registry::usecase::order::{HubOrderRegistrationUsecase, HubOrderShowUsecase};
 
 pub mod order;
 

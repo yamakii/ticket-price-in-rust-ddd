@@ -1,15 +1,15 @@
-use crate::order::domain::model::order::{Order, OrderDetail, OrderId};
-use crate::order::domain::model::ticket_price::CustomerType;
-use crate::order::domain::repository::order::OrderRepository;
-use crate::order::infra::db::model::{OrderDTO, OrderDetailDTO};
-use crate::order::infra::db::repository::order::dto::{NewOrder, NewOrderDetail};
-use crate::order::infra::db::schema::order_details::dsl::{order_details, order_id};
-use crate::order::infra::db::schema::orders::dsl::orders;
+use crate::domain::model::order::{Order, OrderDetail, OrderId};
+use crate::domain::model::ticket_price::CustomerType;
+use crate::domain::repository::order::OrderRepository;
+use crate::infra::db::model::{OrderDTO, OrderDetailDTO};
+use crate::infra::db::repository::order::dto::{NewOrder, NewOrderDetail};
+use crate::infra::db::schema::order_details::dsl::{order_details, order_id};
+use crate::infra::db::schema::orders::dsl::orders;
+use anyhow::{Context, Result};
 use chrono::{Local, TimeZone};
 use diesel::prelude::*;
 use diesel::r2d2::{ConnectionManager, Pool};
 use std::sync::Arc;
-use anyhow::{Result, Context};
 
 pub struct DbOrderRepository {
     pool: Arc<Pool<ConnectionManager<PgConnection>>>,
@@ -29,9 +29,7 @@ impl OrderRepository for DbOrderRepository {
         let details_dto = order_details
             .filter(order_id.eq(key as i32))
             .load::<OrderDetailDTO>(&conn)?;
-        let order_dto: OrderDTO = orders
-            .find(key as i32)
-            .first(&conn)?;
+        let order_dto: OrderDTO = orders.find(key as i32).first(&conn)?;
 
         let details: Vec<_> = details_dto
             .iter()
@@ -87,8 +85,8 @@ impl OrderRepository for DbOrderRepository {
 }
 
 mod dto {
-    use crate::order::infra::db::schema::order_details;
-    use crate::order::infra::db::schema::orders;
+    use crate::infra::db::schema::order_details;
+    use crate::infra::db::schema::orders;
     use chrono::NaiveDate;
 
     #[derive(Insertable)]

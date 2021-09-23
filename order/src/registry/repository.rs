@@ -1,4 +1,4 @@
-use crate::order::infra::db::repository::order::DbOrderRepository;
+use crate::infra::db::repository::order::DbOrderRepository;
 use diesel::r2d2::{ConnectionManager, Pool};
 use diesel::PgConnection;
 use std::sync::Arc;

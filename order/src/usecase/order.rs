@@ -1,10 +1,10 @@
-use crate::order::domain::model::order::Order;
-use crate::order::domain::model::ticket_price::{CustomerType, TicketCount};
-use crate::order::domain::repository::order::{HaveOrderRepository, OrderRepository};
-use crate::order::domain::service::ticket_price::HaveTicketPriceService;
+use crate::domain::model::order::Order;
+use crate::domain::model::ticket_price::{CustomerType, TicketCount};
+use crate::domain::repository::order::{HaveOrderRepository, OrderRepository};
+use crate::domain::service::ticket_price::HaveTicketPriceService;
+use anyhow::Result;
 use chrono::{DateTime, Local};
 use std::collections::HashMap;
-use anyhow::Result;
 
 pub trait OrderRegistrationUsecase {
     fn action(
@@ -40,10 +40,7 @@ impl<O: IsOrderRegistrationUsecase> OrderRegistrationUsecase for O {
 }
 
 pub trait OrderShowUsecase {
-    fn action(
-        &self,
-        order_id: u32,
-    ) -> Result<Order>;
+    fn action(&self, order_id: u32) -> Result<Order>;
 }
 
 pub trait IsOrderShowUsecase: HaveOrderRepository {}

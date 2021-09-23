@@ -1,4 +1,4 @@
-use crate::order::domain::model::ticket_price::CustomerType::{Adult, Child, Silver};
+use crate::domain::model::ticket_price::CustomerType::{Adult, Child, Silver};
 use std::ops::{Add, Mul, Sub};
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
@@ -102,7 +102,7 @@ impl CustomerTypeDiscount {
 
 #[cfg(test)]
 mod tests {
-    use crate::order::domain::model::ticket_price::*;
+    use crate::domain::model::ticket_price::*;
 
     #[test]
     fn test_discount_price() {

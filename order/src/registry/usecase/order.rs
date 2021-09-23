@@ -1,10 +1,10 @@
-use crate::order::domain::repository::order::HaveOrderRepository;
-use crate::order::domain::service::ticket_price::HaveTicketPriceService;
-use crate::order::infra::db::repository::order::DbOrderRepository;
-use crate::order::registry::repository::DbRepositoryRegistry;
-use crate::order::registry::service::ticket_price::HubTicketPriceService;
-use crate::order::registry::service::DomainServiceRegistry;
-use crate::order::usecase::order::{IsOrderRegistrationUsecase, IsOrderShowUsecase};
+use crate::domain::repository::order::HaveOrderRepository;
+use crate::domain::service::ticket_price::HaveTicketPriceService;
+use crate::infra::db::repository::order::DbOrderRepository;
+use crate::registry::repository::DbRepositoryRegistry;
+use crate::registry::service::ticket_price::HubTicketPriceService;
+use crate::registry::service::DomainServiceRegistry;
+use crate::usecase::order::{IsOrderRegistrationUsecase, IsOrderShowUsecase};
 
 pub struct HubOrderRegistrationUsecase<'a> {
     repo: &'a DbOrderRepository,

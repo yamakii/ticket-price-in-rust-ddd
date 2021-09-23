@@ -1,14 +1,13 @@
-use crate::order::controller::order::movie_ticket::movie_ticket_api_server::MovieTicketApiServer;
-use crate::order::controller::order::MovieTicketApiController;
-use crate::order::infra::db::make_connection_pool;
-use crate::order::registry::repository::DbRepositoryRegistry;
-use crate::order::registry::service::{DbServiceRegistry, DomainServiceRegistry};
-use crate::order::registry::usecase::UsecaseRegistry;
+use controller::order::movie_ticket::movie_ticket_api_server::MovieTicketApiServer;
+use controller::order::MovieTicketApiController;
 use diesel::r2d2::{ConnectionManager, Pool};
 use diesel::PgConnection;
+use infra::db::make_connection_pool;
+use registry::repository::DbRepositoryRegistry;
+use registry::service::{DbServiceRegistry, DomainServiceRegistry};
+use registry::usecase::UsecaseRegistry;
 use std::sync::Arc;
 use tonic::transport::Server;
-use anyhow::{Result};
 
 #[macro_use]
 extern crate diesel;
@@ -29,7 +28,7 @@ static ref USECASE_REGISTRY: UsecaseRegistry<'static> =
 }
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> anyhow::Result<()> {
     let addr = "[::1]:50051".parse()?;
     let movie_ticket = MovieTicketApiController::new(
         USECASE_REGISTRY.order_registration(),
@@ -44,4 +43,8 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-mod order;
+pub mod controller;
+pub mod domain;
+pub mod infra;
+pub mod registry;
+pub mod usecase;

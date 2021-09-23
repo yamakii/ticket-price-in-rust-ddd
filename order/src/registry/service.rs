@@ -1,7 +1,5 @@
-use crate::order::infra::db::service::ticket_price::{
-    DbBasicPriceService, DbCustomerTypeDiscountService,
-};
-use crate::order::registry::service::ticket_price::HubTicketPriceService;
+use crate::infra::db::service::ticket_price::{DbBasicPriceService, DbCustomerTypeDiscountService};
+use crate::registry::service::ticket_price::HubTicketPriceService;
 use diesel::r2d2::{ConnectionManager, Pool};
 use diesel::PgConnection;
 use std::sync::Arc;

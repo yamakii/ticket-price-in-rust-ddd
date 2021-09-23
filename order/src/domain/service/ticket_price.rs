@@ -1,5 +1,5 @@
-use crate::order::domain::model::order::MovieId;
-use crate::order::domain::model::ticket_price::{
+use crate::domain::model::order::MovieId;
+use crate::domain::model::ticket_price::{
     CustomerType, CustomerTypeDiscount, TicketCount, TicketPrice,
 };
 
@@ -52,7 +52,7 @@ pub trait HaveCustomerTypeDiscountService {
 
 #[cfg(test)]
 mod tests {
-    use crate::order::domain::service::ticket_price::*;
+    use crate::domain::service::ticket_price::*;
 
     #[test]
     fn test_ticket_price_calculate() {

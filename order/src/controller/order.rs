@@ -1,7 +1,7 @@
-use crate::order::controller::order::movie_ticket::movie_ticket_api_server::MovieTicketApi;
-use crate::order::domain::model::ticket_price::{CustomerType, TicketCount};
-use crate::order::registry::usecase::order::{HubOrderRegistrationUsecase, HubOrderShowUsecase};
-use crate::order::usecase::order::{OrderRegistrationUsecase, OrderShowUsecase};
+use crate::controller::order::movie_ticket::movie_ticket_api_server::MovieTicketApi;
+use crate::domain::model::ticket_price::{CustomerType, TicketCount};
+use crate::registry::usecase::order::{HubOrderRegistrationUsecase, HubOrderShowUsecase};
+use crate::usecase::order::{OrderRegistrationUsecase, OrderShowUsecase};
 use chrono::Local;
 use std::collections::HashMap;
 use tonic::Response;
