@@ -3,15 +3,17 @@ use controller::order::MovieTicketApiController;
 use diesel::r2d2::{ConnectionManager, Pool};
 use diesel::PgConnection;
 use infra::db::make_connection_pool;
-use registry::repository::DbRepositoryRegistry;
-use registry::service::{DbServiceRegistry, DomainServiceRegistry};
-use registry::usecase::UsecaseRegistry;
+use registry::repository_registry::DbRepositoryRegistry;
+use registry::service_registry::{DbServiceRegistry, DomainServiceRegistry};
+use registry::usecase_registry::UsecaseRegistry;
 use std::sync::Arc;
 use tonic::transport::Server;
 
-#[macro_use]
-extern crate diesel;
-extern crate dotenv;
+extern crate controller;
+extern crate domain;
+extern crate infra;
+extern crate registry;
+extern crate usecase;
 
 #[macro_use]
 extern crate lazy_static;
@@ -42,9 +44,3 @@ async fn main() -> anyhow::Result<()> {
 
     Ok(())
 }
-
-pub mod controller;
-pub mod domain;
-pub mod infra;
-pub mod registry;
-pub mod usecase;

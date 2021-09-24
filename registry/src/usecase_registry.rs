@@ -19,7 +19,7 @@ impl<'a> UsecaseRegistry<'a> {
     pub fn order_registration(&self) -> &HubOrderRegistrationUsecase {
         &self.order_registration
     }
-    pub(crate) fn order_show(&self) -> &HubOrderShowUsecase {
+    pub fn order_show(&self) -> &HubOrderShowUsecase {
         &self.order_show
     }
 }

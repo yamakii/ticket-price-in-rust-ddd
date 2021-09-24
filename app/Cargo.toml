@@ -16,6 +16,12 @@ dotenv = "0.15.0"
 r2d2 = "0.8.9"
 anyhow = "1.0.43"
 
+domain = { path = "../domain" }
+infra = { path = "../infra" }
+usecase = { path = "../usecase" }
+registry = { path = "../registry" }
+controller = { path = "../controller" }
+
 [build-dependencies]
 tonic-build = "0.4"
 
