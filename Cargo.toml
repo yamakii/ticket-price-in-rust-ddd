@@ -5,4 +5,5 @@ members = [
     "./infra",
     "./usecase",
     "./registry",
+    "./controller",
 ]
