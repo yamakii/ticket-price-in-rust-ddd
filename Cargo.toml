@@ -4,5 +4,5 @@ members = [
     "./domain",
     "./infra",
     "./usecase",
+    "./registry",
 ]
-
