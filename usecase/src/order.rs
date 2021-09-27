@@ -50,3 +50,32 @@ impl<O: IsOrderShowUsecase> OrderShowUsecase for O {
         self.order_repository().find(order_id.into())
     }
 }
+
+pub fn register_order<T>(
+    context: &T,
+    order_id: u32,
+    movie_id: u32,
+    start_at: DateTime<Local>,
+    customer_types: HashMap<CustomerType, TicketCount>,
+) -> Result<()>
+where
+    T: HaveOrderRepository + HaveTicketPriceService,
+{
+    let order = Order::create(
+        order_id,
+        movie_id,
+        start_at,
+        customer_types,
+        context.ticket_price_service(),
+    );
+    println!("{:?}", order);
+    println!("{:?}", order.price());
+    context.order_repository().save(order)
+}
+
+pub fn show_order<T>(context: &T, order_id: u32) -> Result<Order>
+where
+    T: HaveOrderRepository,
+{
+    context.order_repository().find(order_id.into())
+}
